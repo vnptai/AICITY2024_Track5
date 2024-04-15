@@ -8,9 +8,9 @@ Python 3.9 or later with dependencies listed in requirements.txt. Run the below 
 pip install -r requirements.txt
 ```
 # Data Preparation For Training
-Download the training data v1 and put the download file into ./training/aicity_dataset/, can be downloaded here
+Download the training data v1 and put the download file into ./training/aicity_dataset/detection_training/, can be downloaded here
 
-Download the training data v2 and put the download file into ./training/aicity_dataset/, can be downloaded here
+Download the training data v2 and put the download file into ./training/aicity_dataset/detection_training/, can be downloaded here
 
 In the video dataset, which we've broken down into frames that can be downloaded here
 
