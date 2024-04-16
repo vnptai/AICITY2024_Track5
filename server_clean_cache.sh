@@ -1,0 +1,15 @@
+rm -rf *__pycache__
+rm -rf */*__pycache__
+rm -rf */*/*__pycache__
+rm -rf */*/*/*__pycache__
+rm -rf */*/*/*/*__pycache__
+rm -rf */*/*/*/*/*__pycache__
+rm -rf */*/*/*/*/*/*__pycache__
+rm -rf */*/*/*/*/*/*/*__pycache__
+rm -rf projects/*egg-info
+rm -rf projects/*/*egg-info
+rm -rf projects/*/*/*egg-info
+rm -rf projects/.git
+rm -rf projects/*/.git
+rm -rf projects/*/*/.git
+rm -rf projects/.idea/

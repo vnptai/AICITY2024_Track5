@@ -108,8 +108,8 @@ degrees: 0.0 # (float) image rotation (+/- deg)
 translate: 0.1 # (float) image translation (+/- fraction)
 scale: 0.5 # (float) image scale (+/- gain)
 shear: 0.0 # (float) image shear (+/- deg)
-perspective: 0.0 # (float) image perspective (+/- fraction), range 0-0.001
 albumentations: 1.0 # albumentations augmentation (probability)
+perspective: 0.0 # (float) image perspective (+/- fraction), range 0-0.001
 flipud: 0.0 # (float) image flip up-down (probability)
 fliplr: 0.5 # (float) image flip left-right (probability)
 bgr: 0.0 # (float) image channel BGR (probability)

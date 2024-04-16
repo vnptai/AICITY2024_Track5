@@ -141,10 +141,10 @@ def score_correction_module(output_rs_wbf, video_P0, video_P2):
 
 if __name__ == '__main__':
     print("Loading file results......")
-    SAMPLE_IMG_DIR = "./aicity2024_track5_test/track5_video_test_frame/*/*"
+    SAMPLE_IMG_DIR = "/vnpt_dev_project/code/vnpt_challenge/aicity2024/flow/aicity2024_track5_test/track5_video_test_frame/*/*"
     sample_img_files = sorted(glob.glob(SAMPLE_IMG_DIR))
     data_res_dict = get_data_resolution(sample_img_files)
-    model1 = open("results_detection/ensemble_codetr_h.txt", "r").readlines()
+    model1 = open("results_detection/ensemble_codetr_v1_v2.txt", "r").readlines()
     model2 = open("results_detection/codetr-data_v2_16.txt", "r").readlines()
     model3 = open("results_detection/codetr_data_v2_2.txt", "r").readlines()
     model4 = open("results_detection/codetr_data_v1_16.txt", "r").readlines()
@@ -205,7 +205,7 @@ if __name__ == '__main__':
     output_rs_wbf_13 = ensemble_model_wbf(sample_img_files, models, weights13, iou_thresh, conf_thresh,
                                           save_path=save_path)
     #### Step 3 - Detecting P0 P2
-    video_folder = "./aicity2023_track5_test/videos/"
+    video_folder = "/vnpt_dev_project/code/vnpt_challenge/aicity2024/flow/aicity2023_track5_test/videos/"
     detect_results = save_path
     head_results = "results_head/codet-head.txt"
     print("Detecting P2....")

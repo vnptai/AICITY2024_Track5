@@ -36,4 +36,3 @@ model.train(data='./config/data_v2.yaml',
             perspective=0.0005,
             scale=0.5,
             cos_lr=True, project="../weights/yolov8x_data_v2_2/")
-

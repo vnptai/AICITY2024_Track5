@@ -63,7 +63,7 @@ if __name__ == '__main__':
     arg = argparse.ArgumentParser()
     arg.add_argument('--video-frame-folder', required=False,
                      help='video-frame-folder',
-                     default="./aicity2024_track5_test/")
+                     default="/vnpt_dev_project/code/vnpt_challenge/aicity2024/flow/aicity2024_track5_test/test/")
     arg.add_argument('--models-dir', default="training/weights/", help="model dir")
     args = arg.parse_args()
     SAMPLE_IMG_DIR = args.video_frame_folder

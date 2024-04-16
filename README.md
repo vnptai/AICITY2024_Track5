@@ -31,6 +31,11 @@ python train.py
 cd training/yolov7
 python -m torch.distributed.launch --nproc_per_node 8 --master_port 9527 train.py --workers 8 --device 0,1,2,3,4,5,6,7 --sync-bn
 ```
+##### Export YOLOv7 to onnx
+```commandline
+cd training/yolov7
+python export.py --weights ../weights/yolov7-d6_data_v1/weights/best.pt --grid --end2end --simplify --topk-all 300 --iou-thres 0.65 --conf-thres 0.01 --img-size 1280 1280 --max-wh 1280
+```
 ##### Note: We execute the training with 8 NVIDIA RTX 2080TI 12GB GPU
 
 #### Co-DETR
