@@ -1125,7 +1125,7 @@ def v8_transforms(dataset, imgsz, hyp, stretch=False):
         [
             pre_transform,
             MixUp(dataset, pre_transform=pre_transform, p=hyp.mixup),
-            Albumentations(p=1.0),
+            Albumentations(p=hyp.albumentations),
             RandomHSV(hgain=hyp.hsv_h, sgain=hyp.hsv_s, vgain=hyp.hsv_v),
             RandomFlip(direction="vertical", p=hyp.flipud),
             RandomFlip(direction="horizontal", p=hyp.fliplr, flip_idx=flip_idx),
@@ -1381,3 +1381,4 @@ class ToTensor:
         im = im.half() if self.half else im.float()  # uint8 to fp16/32
         im /= 255.0  # 0-255 to 0.0-1.0
         return im
+
