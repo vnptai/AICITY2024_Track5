@@ -13,8 +13,7 @@ CLASSES = ["motorbike", "DHelmet", "DNoHelmet", "P1Helmet", "P1NoHelmet", "P2Hel
            "P0NoHelmet"]
 
 
-
-def detecting_p0(video_folder, detect_results, head_results, threshold=0.14, check_frame_head=3):
+def detecting_p0(video_folder, detect_results, head_results, threshold=0.14):
     obj_association = Object_Association(video_folder=video_folder,
                                          display=False, head_thresh=threshold,
                                          prediction_path=detect_results,
@@ -22,7 +21,7 @@ def detecting_p0(video_folder, detect_results, head_results, threshold=0.14, che
     video_p0 = []
     for video_path in tqdm.tqdm(sorted(glob.glob(video_folder + "/*"))):
         cap = cv2.VideoCapture(video_path)
-        tracking = tracker.my_tracking(check_frame_head=check_frame_head)
+        tracking = tracker.my_tracking()
         frame_id = 0
         video_id = int(video_path.split('/')[-1].split('.')[0])
         is_P0 = False
@@ -39,13 +38,14 @@ def detecting_p0(video_folder, detect_results, head_results, threshold=0.14, che
                 box = rs.get_box_info()
                 bbox_motor.append([box[0], box[1], box[2], box[3], int(box[4]), box[5]])
             if len(bbox_motor) > 0:
-                output_vehicle, is_P2, is_P0 = tracking.update(np.array(bbox_motor),results_obj_association)
+                output_vehicle, is_P2, is_P0 = tracking.update(np.array(bbox_motor), results_obj_association)
             if is_P0:
                 video_p0.append(video_id)
                 break
     return video_p0
 
-def detecting_p2(video_folder, detect_results, head_results, threshold=0.23, check_frame_head=3):
+
+def detecting_p2(video_folder, detect_results, head_results, threshold=0.23):
     obj_association = Object_Association(video_folder=video_folder,
                                          display=False, head_thresh=threshold,
                                          prediction_path=detect_results,
@@ -53,7 +53,7 @@ def detecting_p2(video_folder, detect_results, head_results, threshold=0.23, che
     video_p2 = []
     for video_path in tqdm.tqdm(sorted(glob.glob(video_folder + "/*"))):
         cap = cv2.VideoCapture(video_path)
-        tracking = tracker.my_tracking(check_frame_head=check_frame_head)
+        tracking = tracker.my_tracking()
         frame_id = 0
         video_id = int(video_path.split('/')[-1].split('.')[0])
         is_P2 = False
@@ -70,7 +70,7 @@ def detecting_p2(video_folder, detect_results, head_results, threshold=0.23, che
                 box = rs.get_box_info()
                 bbox_motor.append([box[0], box[1], box[2], box[3], int(box[4]), box[5]])
             if len(bbox_motor) > 0:
-                output_vehicle, is_P2, is_P0 = tracking.update(np.array(bbox_motor),results_obj_association)
+                output_vehicle, is_P2, is_P0 = tracking.update(np.array(bbox_motor), results_obj_association)
             if is_P2:
                 video_p2.append(video_id)
                 break

@@ -1,13 +1,13 @@
 import glob
 import os.path
-
+import numpy as np
 import tqdm
 from PIL import Image
 from ultralytics import YOLO
 from utils.utils import *
 import argparse
 from utils.yolov7_onnx import init_model
-
+import cv2
 class_name = ["motorbike", "DHelmet", "DNoHelmet", "P1Helmet", "P1NoHelmet", "P2Helmet", "P2NoHelmet", "P0Helmet",
               "P0NoHelmet"]
 
@@ -63,13 +63,11 @@ if __name__ == '__main__':
     arg = argparse.ArgumentParser()
     arg.add_argument('--video-frame-folder', required=False,
                      help='video-frame-folder',
-                     default="/vnpt_dev_project/code/vnpt_challenge/aicity2024/flow/aicity2024_track5_test/track5_video_test_frame/")
+                     default="./aicity2024_track5_test/")
     arg.add_argument('--models-dir', default="training/weights/", help="model dir")
     args = arg.parse_args()
     SAMPLE_IMG_DIR = args.video_frame_folder
     MODELS_DIR = args.models_dir
-    mode = args.mode_post
-    save_image = args.save_image
     model_dict_yolov8 = dict()
     model_yolov7 = ""
 
@@ -85,12 +83,12 @@ if __name__ == '__main__':
             model_dict_yolov8[basename] = YOLO(pt_file)
             print("\t {}  \n".format(basename))
         else:
-            model_dict_yolov7 = pt_file
+            model_yolov7 = pt_file
             print("\t {}  \n".format(basename))
 
     for j, model in enumerate(model_dict_yolov8):
         modelname = model
-        model_obj = model_dict_yolov8[model].value()
+        model_obj = model_dict_yolov8[modelname]
         confs_scores, box_preds, cls_preds = get_predictions_yolov8(model_obj, sample_img_files)
         detect_file = open("results_detection/{}.txt".format(modelname), "w")
         output_file_detect = []
@@ -114,7 +112,7 @@ if __name__ == '__main__':
     pred_classes = []
     scores_dict = []
     confs_scores_v7, box_preds_v7, cls_preds_v7 = get_predictions_yolov7(model_yolov7, sample_img_files)
-    detect_file = open("results_detection/{}.txt".format(model_yolov7.split(".")[0]), "w")
+    detect_file = open("results_detection/{}.txt".format(model_yolov7.split("/")[-3]), "w")
     output_file_detect = []
     for i, (img_file, box_data, confs, classid) in enumerate(
             zip(sample_img_files, box_preds_v7.values(), confs_scores_v7.values(), cls_preds_v7.values())):

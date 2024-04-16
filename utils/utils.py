@@ -1,5 +1,5 @@
 from ensemble_boxes import weighted_boxes_fusion
-
+import numpy as np
 
 def perform_weighted_boxes_fusion(
         pred_confs_models,
@@ -23,23 +23,15 @@ def perform_weighted_boxes_fusion(
                 pred_boxes_norm = []
                 scores_model = []
                 classes_model = []
-                # continue
             else:
                 pred_boxes_norm = (boxes[image_id] / res_array).clip(min=0., max=1.)
-                # print(pred_boxes_norm)
-                # exit(0)
                 scores_model = scores[image_id]
                 classes_model = classes[image_id]
 
             all_model_boxes.append(pred_boxes_norm)
             all_model_scores.append(scores_model)
             all_model_classes.append(classes_model)
-        # if len(all_model_boxes) < 1:
-        #     wbf_boxes_dict[image_id] = None
-        #     wbf_scores_dict[image_id] = None
-        #     wbf_labels_dict[image_id] = None
-        #     continue
-        # Perform weighted box fusion.
+
         boxes, scores, labels = weighted_boxes_fusion(
             all_model_boxes,
             all_model_scores,

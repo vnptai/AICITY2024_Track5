@@ -6,9 +6,9 @@ from tqdm import tqdm
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--root_dir', default='/vnpt_dev_project/code/vnpt_challenge/aicity2024/data/data_v3_pseudo/data-v2/train/', type=str,
+parser.add_argument('--root_dir', default='train/', type=str,
                     help="root path of images and labels, include ./images and ./labels and classes.txt")
-parser.add_argument('--save_path', type=str, default='/vnpt_dev_project/code/vnpt_challenge/aicity2024/data/data_v3_pseudo/data-v2/train/',
+parser.add_argument('--save_path', type=str, default='train/',
                     help="if not split the dataset, give a path to a json file")
 parser.add_argument('--save_name', type=str, default='train.json',
                     help="if not split the dataset, give a path to a json file")
