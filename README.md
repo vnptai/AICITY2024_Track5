@@ -64,10 +64,20 @@ tools/dist_test.sh projects/CO-DETR/configs/codino/infer_v1_e16.py checkpoints/v
 tools/dist_test.sh projects/CO-DETR/configs/codino/infer_v2_e2.py checkpoints/v2_epoch_2.pth  4
 tools/dist_test.sh projects/CO-DETR/configs/codino/infer_v2_e16.py checkpoints/v2_epoch_16.pth  4
 ```
-
+Json output file will saved in work_dirs folder
 #Convert format json to txt aicity
-
-....
+```
+python ../../utils/convert_json2txt-aicity.py --images_id val_track5.json --image_bbox work_dirs/CO-DETR-v1-e2.bbox.json 
+--output ../../results_detection/codetr-data_v1_2.txt
+python ../../utils/convert_json2txt-aicity.py --images_id val_track5.json --image_bbox work_dirs/CO-DETR-v1-e8.bbox.json 
+--output ../../results_detection/codetr-data_v1_8.txt
+python ../../utils/convert_json2txt-aicity.py --images_id val_track5.json --image_bbox work_dirs/CO-DETR-v1-e16.bbox.json 
+--output ../../results_detection/codetr-data_v1_16.txt
+python ../../utils/convert_json2txt-aicity.py --images_id val_track5.json --image_bbox work_dirs/CO-DETR-v2-e2.bbox.json 
+--output ../../results_detection/codetr-data_v2_2.txt
+python ../../utils/convert_json2txt-aicity.py --images_id val_track5.json --image_bbox work_dirs/CO-DETR-v2-e16.bbox.json 
+--output ../../results_detection/codetr-data_v2_16.txt
+```
 
 After running the executable, the resulting file will be saved in the ./results_detection
 
@@ -76,9 +86,15 @@ Download the training data zip file and extract it inside ./training/aicity_data
 
 ### Co-DETR
 #### Train
-....
+```commandline
+cd training/CO-DETR
+tools/dist_train.sh projects/CO-DETR/configs/codino/train_head.py 4
+```
 #### Inference
-....
+```
+python ../../utils/convert_json2txt-aicity.py --images_id val_track5.json --image_bbox work_dirs/CO-DETR-head.bbox.json 
+--output ../../results_head/result_head_codetr.txt
+```
 
 After running the executable, the result file will be received as a result_head_codetr.txt in the ./results_head
 

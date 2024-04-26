@@ -129,7 +129,7 @@ val_evaluator = dict(  # Validation evaluator config
     ann_file='val_track5.json',  # Annotation file path
     metric=['bbox'],  # Metrics to be evaluated, `bbox` for detection and `segm` for instance segmentation
     format_only=True,
-    outfile_prefix='./work_dirs/CO-DETR')
+    outfile_prefix='./work_dirs/CO-DETR-v1-e2')
 test_evaluator = val_evaluator  # Testing evaluator config
 
 optim_wrapper = dict(optimizer=dict(lr=1e-4))

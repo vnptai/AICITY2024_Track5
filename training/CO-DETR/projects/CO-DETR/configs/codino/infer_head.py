@@ -88,7 +88,7 @@ train_pipeline = [
 
 data_root = 'ai-city-challenge-2024/track5/'
 metainfo = {
-    'classes': ('motorbike', 'DHelmet', 'DNoHelmet', 'P1Helmet', 'P1NoHelmet', 'P2Helmet', 'P2NoHelmet', 'P0Helmet', 'P0NoHelmet'),
+    'classes': ('head'),
 }
 dataset_type = 'CocoDataset'
 
@@ -119,16 +119,17 @@ val_dataloader = dict(
         pipeline=test_pipeline,
         data_root=data_root,
         metainfo=metainfo,
-        ann_file=data_root + 'val_track5.json',
-        data_prefix=dict(img=data_root + 'aicity2024_track5_images/')
+        ann_file='head_track5.json',
+        data_prefix=dict(img='training/aicity_dataset/test2024')
         ))
 test_dataloader = val_dataloader
 
 val_evaluator = dict(  # Validation evaluator config
     type='CocoMetric',  # The coco metric used to evaluate AR, AP, and mAP for detection and instance segmentation
-    ann_file=data_root + 'val_track5.json',  # Annotation file path
+    ann_file='val_track5.json',  # Annotation file path
     metric=['bbox'],  # Metrics to be evaluated, `bbox` for detection and `segm` for instance segmentation
-    format_only=False)
+    format_only=True,
+    outfile_prefix='./work_dirs/CO-DETR-head')
 test_evaluator = val_evaluator  # Testing evaluator config
 
 optim_wrapper = dict(optimizer=dict(lr=1e-4))
