@@ -39,9 +39,11 @@ python export.py --weights ../weights/yolov7-d6_data_v1/weights/best.pt --grid -
 ##### Note: We execute the training with 8 NVIDIA RTX 2080TI 12GB GPU
 
 #### Co-DETR
-......
-
-......
+```commandline
+cd training/CO-DETR
+tools/dist_train.sh projects/CO-DETR/configs/codino/train_v1.py 4
+tools/dist_train.sh projects/CO-DETR/configs/codino/train_v2.py 4
+```
 ##### Note: We execute the training with one DGX node with 4 NVIDIA A100-40GB GPU
 
 ### Inference
@@ -53,7 +55,15 @@ After running the executable, the resulting file will be saved in the ./results_
 
 
 #### Inference model Co-DETR
-....
+Download checkpoints from url: https://1drv.ms/f/s!AqGcdYmA92Q_m8No_7x_r_bdZ8MlHA?e=pmAbHv and save in checkpoints folder
+```commandline
+cd training/CO-DETR
+tools/dist_test.sh projects/CO-DETR/configs/codino/infer_v1_e2.py checkpoints/v1_epoch_2.pth  4
+tools/dist_test.sh projects/CO-DETR/configs/codino/infer_v1_e8.py checkpoints/v1_epoch_8.pth  4
+tools/dist_test.sh projects/CO-DETR/configs/codino/infer_v1_e16.py checkpoints/v1_epoch_16.pth  4
+tools/dist_test.sh projects/CO-DETR/configs/codino/infer_v2_e2.py checkpoints/v2_epoch_2.pth  4
+tools/dist_test.sh projects/CO-DETR/configs/codino/infer_v2_e16.py checkpoints/v2_epoch_16.pth  4
+```
 
 #Convert format json to txt aicity
 
