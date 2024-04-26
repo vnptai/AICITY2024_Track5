@@ -166,7 +166,7 @@ if __name__ == '__main__':
     aicity_labels10 = get_original_box(model10, order='conf_last')
     aicity_labels11 = get_original_box(model11, order='conf_last')
     aicity_labels12 = get_original_box(model12, order='conf_last')
-    #### step 1 Ensemble w3
+    #### step 1 Ensemble w4
     list_models4 = {"model1": aicity_labels5,
                      "model2": aicity_labels6, "model3": aicity_labels3, "model4": aicity_labels4}
     weights4 = [1, 1, 3, 2]
