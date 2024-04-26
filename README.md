@@ -55,6 +55,8 @@ After running the executable, the resulting file will be saved in the ./results_
 #### Inference model Co-DETR
 ....
 
+#Convert format json to txt aicity
+
 ....
 
 After running the executable, the resulting file will be saved in the ./results_detection
@@ -74,7 +76,7 @@ After running the executable, the result file will be received as a result_head_
 #### Train
 Please correct the data path in the file config ./head_training/.....
 ```commandline
-cd head_training
+cd training/head_training
 python effdet_train.py
 .....
 ```

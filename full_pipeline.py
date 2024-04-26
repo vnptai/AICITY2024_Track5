@@ -141,10 +141,9 @@ def score_correction_module(output_rs_wbf, video_P0, video_P2):
 
 if __name__ == '__main__':
     print("Loading file results......")
-    SAMPLE_IMG_DIR = "/vnpt_dev_project/code/vnpt_challenge/aicity2024/flow/aicity2024_track5_test/track5_video_test_frame/*/*"
+    SAMPLE_IMG_DIR = "./aicity2024_track5_test/track5_video_test_frame/*/*"
     sample_img_files = sorted(glob.glob(SAMPLE_IMG_DIR))
     data_res_dict = get_data_resolution(sample_img_files)
-    model1 = open("results_detection/ensemble_codetr_v1_v2.txt", "r").readlines()
     model2 = open("results_detection/codetr-data_v2_16.txt", "r").readlines()
     model3 = open("results_detection/codetr_data_v2_2.txt", "r").readlines()
     model4 = open("results_detection/codetr_data_v1_16.txt", "r").readlines()
@@ -156,7 +155,6 @@ if __name__ == '__main__':
     model10 = open("results_detection/yolov8x-p2_data_v1.txt", "r").readlines()
     model11 = open("results_detection/yolov8x-p6_data_v1.txt", "r").readlines()
     model12 = open("results_detection/yolov8x_data_v2_2.txt", "r").readlines()
-    aicity_labels1 = get_original_box(model1, order='conf_last')
     aicity_labels2 = get_original_box(model2, order='conf_last')
     aicity_labels3 = get_original_box(model3, order='conf_last')
     aicity_labels4 = get_original_box(model4, order='conf_last')
@@ -168,8 +166,25 @@ if __name__ == '__main__':
     aicity_labels10 = get_original_box(model10, order='conf_last')
     aicity_labels11 = get_original_box(model11, order='conf_last')
     aicity_labels12 = get_original_box(model12, order='conf_last')
+    #### step 1 Ensemble w3
+    list_models4 = {"model1": aicity_labels5,
+                     "model2": aicity_labels6, "model3": aicity_labels3, "model4": aicity_labels4}
+    weights4 = [1, 1, 3, 2]
+    iou_thresh = 0.7
+    conf_thresh = 0.01
+    models = list_models4
+    save_path = "results_detection/w4.txt"
+    if os.path.exists(save_path):
+        print("skip wbs step 1....")
+    else:
+        print("WBF step 1....")
+        output_rs_wbf_w12 = ensemble_model_wbf(sample_img_files, models, weights4, iou_thresh, conf_thresh,
+                                               save_path=save_path)
 
-    #### Step 1 Ensemble w12
+    model1 = open("results_detection/w4.txt", "r").readlines()
+    aicity_labels1 = get_original_box(model1, order='conf_last')
+
+    #### Step 2 Ensemble w12
     list_models12 = {"model1": aicity_labels1, "model2": aicity_labels2,
                      "model3": aicity_labels3, "model4": aicity_labels4, "model5": aicity_labels5,
                      "model6": aicity_labels6, "model7": aicity_labels7, "model8": aicity_labels8,
@@ -186,7 +201,7 @@ if __name__ == '__main__':
         print("WBF step 1....")
         output_rs_wbf_w12 = ensemble_model_wbf(sample_img_files, models, weights12, iou_thresh, conf_thresh,
                                                save_path=save_path)
-    #### Step 2 Ensemble w13
+    #### Step 3 Ensemble w13
     model0 = open("results_detection/w12.txt", "r").readlines()
     aicity_labels13 = get_original_box(model0, order='conf_last')
     list_models13 = {"model0": aicity_labels13, "model1": aicity_labels1,
@@ -204,7 +219,7 @@ if __name__ == '__main__':
     print("WBF step 2....")
     output_rs_wbf_13 = ensemble_model_wbf(sample_img_files, models, weights13, iou_thresh, conf_thresh,
                                           save_path=save_path)
-    #### Step 3 - Detecting P0 P2
+    #### Step 4 - Detecting P0 P2
     video_folder = "/vnpt_dev_project/code/vnpt_challenge/aicity2024/flow/aicity2023_track5_test/videos/"
     detect_results = save_path
     head_results = "results_head/codet-head.txt"
