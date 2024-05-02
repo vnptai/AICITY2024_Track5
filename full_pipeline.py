@@ -125,23 +125,23 @@ def score_correction_module(output_rs_wbf, video_P0, video_P2):
         ymin = int(np.clip(ymin, 1, 1079))
         w = int(np.clip(w, 1, 1919))
         h = int(np.clip(h, 1, 1079))
-        for vid_p0 in video_P0:
-            if int(vid_p0) == video_id:
+        if video_id in video_P0:
+            if class_id in [8, 9]:
                 class_confidence = class_confidence + 0.1
                 class_confidence = 0.99 if class_confidence > 0.99 else class_confidence
-        for vid_p2 in video_P2:
-            if int(vid_p2) == video_id:
+        if video_id in video_P2:
+            if class_id in [6, 7]:
                 class_confidence = class_confidence + 0.2
                 class_confidence = 0.99 if class_confidence > 0.99 else class_confidence
         output_score_correction.append("%d,%d,%d,%d,%d,%d,%d,%.6f" %
-                                       (video_id, frame, xmin, ymin, w, h, class_id + 1, class_confidence
+                                       (video_id, frame, xmin, ymin, w, h, class_id, class_confidence
                                         ))
     return output_score_correction
 
 
 if __name__ == '__main__':
     print("Loading file results......")
-    SAMPLE_IMG_DIR = ".raining/aicity_dataset/test2024/frame/*/*"
+    SAMPLE_IMG_DIR = "/vnpt_dev_project/code/vnpt_challenge/aicity2024/flow/aicity2024_track5_test/track5_video_test_frame/*/*"
     sample_img_files = sorted(glob.glob(SAMPLE_IMG_DIR))
     data_res_dict = get_data_resolution(sample_img_files)
     model2 = open("results_detection/codetr-data_v2_16.txt", "r").readlines()
@@ -166,12 +166,12 @@ if __name__ == '__main__':
     aicity_labels10 = get_original_box(model10, order='conf_last')
     aicity_labels11 = get_original_box(model11, order='conf_last')
     aicity_labels12 = get_original_box(model12, order='conf_last')
-    #### step 1 Ensemble w4
+    #### step 1 Ensemble w3
     list_models4 = {"model1": aicity_labels5,
-                     "model2": aicity_labels6, "model3": aicity_labels3, "model4": aicity_labels4}
+                    "model2": aicity_labels6, "model3": aicity_labels3, "model4": aicity_labels4}
     weights4 = [1, 1, 3, 2]
     iou_thresh = 0.7
-    conf_thresh = 0.01
+    conf_thresh = 0.05
     models = list_models4
     save_path = "results_detection/w4.txt"
     if os.path.exists(save_path):
@@ -196,9 +196,9 @@ if __name__ == '__main__':
     models = list_models12
     save_path = "results_detection/w12.txt"
     if os.path.exists(save_path):
-        print("skip wbs step 1....")
+        print("skip wbs step 2....")
     else:
-        print("WBF step 1....")
+        print("WBF step 2....")
         output_rs_wbf_w12 = ensemble_model_wbf(sample_img_files, models, weights12, iou_thresh, conf_thresh,
                                                save_path=save_path)
     #### Step 3 Ensemble w13
@@ -216,11 +216,11 @@ if __name__ == '__main__':
     conf_thresh = 0.01
     models = list_models13
     save_path = "results_detection/w13_final_ensemble.txt"
-    print("WBF step 2....")
+    print("WBF step 3....")
     output_rs_wbf_13 = ensemble_model_wbf(sample_img_files, models, weights13, iou_thresh, conf_thresh,
                                           save_path=save_path)
     #### Step 4 - Detecting P0 P2
-    video_folder = "raining/aicity_dataset/test2024/videos/"
+    video_folder = "/vnpt_dev_project/code/vnpt_challenge/aicity2024/flow/aicity2023_track5_test/videos/"
     detect_results = save_path
     head_results = "results_head/codet-head.txt"
     print("Detecting P2....")

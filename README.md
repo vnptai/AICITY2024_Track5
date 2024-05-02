@@ -48,8 +48,10 @@ tools/dist_train.sh projects/CO-DETR/configs/codino/train_v2.py 4
 
 ### Inference
 #### Inference model YOLO
+Download checkpoints from url: https://1drv.ms/f/s!AqGcdYmA92Q_m8No_7x_r_bdZ8MlHA?e=pmAbHv and save in checkpoints into ./training/weights/
+
 ```commandline
-python inference_model_yolo.py
+python inference_model_yolo.py --models_dir ./training/weights/
 ```
 After running the executable, the resulting file will be saved in the ./results_detection
 
@@ -116,6 +118,7 @@ After running the executable, the result file will be received as a result_head_
 In this step, we used the resulting files of step 1, step 2, module object association and module score correction to get the final result
 
 Please correct the resulting file path in full_pipeline.py
+
 
 ```commandline
 python full_pipeline.py
