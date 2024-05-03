@@ -105,6 +105,9 @@ def ensemble_model_wbf(sample_img_files, models, weights, iou_thresh, conf_thres
             ymin = int(np.clip(object[1], 1, 1079))
             w = int(np.clip(object[2], 1, 1919))
             h = int(np.clip(object[3], 1, 1079))
+            if int(classid[i]) in [5, 7]:
+                if confs[i] < 0.9:
+                    continue
             output_file_detect.append("%d,%d,%d,%d,%d,%d,%d,%.6f" %
                                       (video_id, frame_id, xmin, ymin, w, h, classid[i] + 1, confs[i]
                                        ))
